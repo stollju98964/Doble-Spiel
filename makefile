@@ -1,11 +1,11 @@
 # --------------------------
 # Compiler & Flags
 # --------------------------
-CC     = gcc
 
-CFLAGS = -g -Wall
-LDFLAGS = -lm
-FLAGS  = $(CFLAGS) $(LDFLAGS)
+CC     = gcc
+CFLAGS = -g -Wall -I$(raylibfolder)/include
+LDFLAGS = -lm -framework OpenGL -framework CoreFoundation -framework CoreGraphics -framework IOKit -framework Cocoa -framework CoreVideo
+
 # --------------------------
 # OS-spezifische Variablen
 # --------------------------
@@ -30,11 +30,11 @@ unityfolder  = ./unity
 program_obj_files = stack.o bintree.o numbers.o timer.o highscore.o
 
 doble: main.o $(program_obj_files)
-	$(CC) $(FLAGS) $^ -o doble
+	$(CC) $^ -o $@ $(LDFLAGS)
 
 # Generische Regel für alle .o Files
 %.o: %.c
-	$(CC) -c $(FLAGS) $< -o $@
+	$(CC) -c $(FLAGS) -c $< -o $@
 
 # --------------------------
 # Initiales Programm (fertiges .a)
@@ -47,7 +47,7 @@ doble_initial:
 # --------------------------
 
 unitTests: test_numbers.o unity.o numbers.o bintree.o stack.o
-	$(CC) $(FLAGS) $^ -o unitTests
+	$(CC) $^ -o $@ $(LDFLAGS)
 
 
 unity.o: $(unityfolder)/unity.c
