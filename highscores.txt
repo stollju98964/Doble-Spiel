@@ -1,5 +1,9 @@
 player_name;9914
+Santa;4992
 player1;3999
 peter;3982
+Santa;2996
+Santa;2995
+Santa;2995
 stoll;2995
 peter;2985
