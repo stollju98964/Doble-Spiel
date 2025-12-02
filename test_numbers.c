@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "numbers.h"
+void setUp(void) {}
+void tearDown(void) {}
 
 // Hilfsfunktion: prüft, ob ein Wert im Array vorkommt
 static int contains(const unsigned int *arr, unsigned int len, unsigned int val) {
