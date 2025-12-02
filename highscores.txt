@@ -1,3 +1,5 @@
 player_name;9914
 player1;3999
+peter;3982
 stoll;2995
+peter;2985
