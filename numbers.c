@@ -32,13 +32,24 @@ unsigned int *createNumbers(unsigned int len)
     unsigned int range = 2 * len;
     unsigned int count = 0;
 
-    srand((unsigned int)time(NULL));
+    static int seeded = 0;
+    if (!seeded) {
+        srand((unsigned int)time(NULL));
+        seeded = 1;
+    }
 
     // Generate unique random numbers
     while (count < len - 1) {
         unsigned int num = 1 + rand() % range;
         int isDup = 0;
-        tree = addToTree(tree, &num, sizeof(num), compareUnsignedInt, &isDup);
+        TreeNode *newTree = addToTree(tree, &num, sizeof(num), compareUnsignedInt, &isDup);
+        if (!newTree) {
+            // Allocation failed during tree insertion -> aufräumen und Fehler zurückgeben
+            clearTree(tree);
+            free(numbers);
+            return NULL;
+        }
+        tree = newTree;
         if (!isDup) {
             numbers[count++] = num;
         }
