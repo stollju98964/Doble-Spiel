@@ -1,1 +1,3 @@
+player_name;9914
 player1;3999
+stoll;2995
