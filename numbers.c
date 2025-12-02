@@ -4,7 +4,7 @@
 #include <string.h>
 #include "numbers.h"
 #include "bintree.h"
-
+// 
 //TODO: getDuplicate und createNumbers implementieren
 /*  *   * Erzeugen eines Arrays mit der vom Nutzer eingegebenen Anzahl an Zufallszahlen.
   * Sicherstellen, dass beim Befüllen keine Duplikate entstehen.
@@ -63,5 +63,25 @@ unsigned int *createNumbers(unsigned int len)
 // Returns only the only number in numbers which is present twice. Returns zero on errors.
 unsigned int getDuplicate(const unsigned int numbers[], unsigned int len)
 {
+    if (!numbers || len < 3) return 0;
 
+    // Kopiere das Array, damit das Original nicht verändert wird
+    unsigned int *copy = malloc(len * sizeof(unsigned int));
+    if (!copy) return 0;
+    memcpy(copy, numbers, len * sizeof(unsigned int));
+
+    // Sortiere das Array
+    qsort(copy, len, sizeof(unsigned int), compareUnsignedInt);
+
+    // Suche nach zwei aufeinanderfolgenden gleichen Zahlen
+    unsigned int duplicate = 0;
+    for (unsigned int i = 1; i < len; ++i) {
+        if (copy[i] == copy[i - 1]) {
+            duplicate = copy[i];
+            break;
+        }
+    }
+
+    free(copy);
+    return duplicate;
 }
