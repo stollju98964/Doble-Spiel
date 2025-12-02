@@ -37,8 +37,18 @@ int main(void) {
     // Test clearStack: push zwei Werte, clear und setze pointer auf NULL
     stack = push(stack, make_int(10));
     stack = push(stack, make_int(20));
-    clearStack(stack);
-    stack = NULL; // clearStack gibt Speicher frei, setzt Pointer nicht selbst
+
+    // free data before clearing nodes
+    while (stack) {
+        int *val = (int *)top(stack);
+        free(val);
+        stack = pop(stack);
+    }
+    // stack ist jetzt NULL
+    assert(stack == NULL);
+    assert(top(stack) == NULL);
+    stack = pop(stack); // pop auf leerem Stack darf NULL zurückgeben
+    assert(stack == NULL);
 
     printf("Alle Stack-Tests bestanden.\n");
     return 0;
