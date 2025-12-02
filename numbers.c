@@ -11,6 +11,13 @@
   * Duplizieren eines zufälligen Eintrags im Array.
   * in `getDuplicate()`: Sortieren des Arrays und Erkennen der doppelten Zahl durch Vergleich benachbarter Elemente. */
 
+// Vergleichsfunktion für unsigned int
+static int compareUnsignedInt(const void *a, const void *b) {
+    unsigned int ua = *(const unsigned int *)a;
+    unsigned int ub = *(const unsigned int *)b;
+    return (ua > ub) - (ua < ub);
+}
+
 // Returns len random numbers between 1 and 2x len in random order which are all different, except for two entries.
 // Returns NULL on errors. Use your implementation of the binary search tree to check for possible duplicates while
 // creating random numbers.
@@ -31,12 +38,7 @@ unsigned int *createNumbers(unsigned int len)
     while (count < len - 1) {
         unsigned int num = 1 + rand() % range;
         int isDup = 0;
-        tree = addToTree(tree, &num, sizeof(num), 
-            [](const void *a, const void *b) {
-                unsigned int ua = *(const unsigned int *)a;
-                unsigned int ub = *(const unsigned int *)b;
-                return (ua > ub) - (ua < ub);
-            }, &isDup);
+        tree = addToTree(tree, &num, sizeof(num), compareUnsignedInt, &isDup);
         if (!isDup) {
             numbers[count++] = num;
         }
