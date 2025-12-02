@@ -16,7 +16,46 @@
 // creating random numbers.
 unsigned int *createNumbers(unsigned int len)
 {
+    if (len < 3 || len > 1000) return NULL;
 
+    unsigned int *numbers = malloc(len * sizeof(unsigned int));
+    if (!numbers) return NULL;
+
+    TreeNode *tree = NULL;
+    unsigned int range = 2 * len;
+    unsigned int count = 0;
+
+    srand((unsigned int)time(NULL));
+
+    // Generate unique random numbers
+    while (count < len - 1) {
+        unsigned int num = 1 + rand() % range;
+        int isDup = 0;
+        tree = addToTree(tree, &num, sizeof(num), 
+            [](const void *a, const void *b) {
+                unsigned int ua = *(const unsigned int *)a;
+                unsigned int ub = *(const unsigned int *)b;
+                return (ua > ub) - (ua < ub);
+            }, &isDup);
+        if (!isDup) {
+            numbers[count++] = num;
+        }
+    }
+
+    // Pick one of the already chosen numbers to duplicate
+    unsigned int dupIdx = rand() % (len - 1);
+    numbers[count++] = numbers[dupIdx];
+
+    // Optional: shuffle array for random order
+    for (unsigned int i = len - 1; i > 0; i--) {
+        unsigned int j = rand() % (i + 1);
+        unsigned int tmp = numbers[i];
+        numbers[i] = numbers[j];
+        numbers[j] = tmp;
+    }
+
+    clearTree(tree);
+    return numbers;
 }
 
 // Returns only the only number in numbers which is present twice. Returns zero on errors.
