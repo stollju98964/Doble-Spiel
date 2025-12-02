@@ -7,7 +7,11 @@ The latest element is taken from the stack. */
 
 #include <stdlib.h>
 
-//TODO: passenden Datentyp als struct anlegen
+// Datentyp für einen Stack-Knoten
+typedef struct StackNode {
+    void *data;
+    struct StackNode *next;
+} StackNode;
 
 // Pushes data as pointer onto the stack.
 StackNode *push(StackNode *stack, void *data);
